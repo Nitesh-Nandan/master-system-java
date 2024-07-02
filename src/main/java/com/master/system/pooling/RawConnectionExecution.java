@@ -12,6 +12,11 @@ public class RawConnectionExecution implements IQueryExecution {
     }
 
     @Override
+    public void closeConnection(Connection connection) throws SQLException {
+        connection.close();
+    }
+
+    @Override
     public void execute(String query) throws InterruptedException, SQLException {
         Connection conn = getConnection();
         Statement statement = conn.createStatement();
@@ -21,6 +26,6 @@ public class RawConnectionExecution implements IQueryExecution {
         }
         resultSet.close();
         statement.close();
-        conn.close();
+        closeConnection(conn);
     }
 }

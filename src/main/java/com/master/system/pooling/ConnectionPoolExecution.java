@@ -29,6 +29,11 @@ public class ConnectionPoolExecution implements IQueryExecution {
     }
 
     @Override
+    public void closeConnection(Connection connection) throws InterruptedException {
+        connectionPool.add(connection);
+    }
+
+    @Override
     public void execute(String query) throws InterruptedException, SQLException {
         Connection conn = getConnection();
         Statement statement = conn.createStatement();
@@ -38,6 +43,6 @@ public class ConnectionPoolExecution implements IQueryExecution {
         }
         resultSet.close();
         statement.close();
-        connectionPool.add(conn);
+        closeConnection(conn);
     }
 }
