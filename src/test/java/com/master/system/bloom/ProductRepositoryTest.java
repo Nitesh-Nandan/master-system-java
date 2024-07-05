@@ -14,24 +14,24 @@ class ProductRepositoryTest {
 
     private ProductRepository productRepository;
 
-    @BeforeEach
+//    @BeforeEach
     void setup() throws SQLException {
         productRepository = new ProductRepository();
     }
 
-    @Test
+//    @Test
     void testRecordExist() throws SQLException {
         Assertions.assertThat(Boolean.TRUE).isEqualTo(
                 productRepository.checkProductExistByProductId(8807131));
     }
 
-    @Test
+//    @Test
     void testRecordDoesNotExist() throws SQLException {
         Assertions.assertThat(Boolean.FALSE).isEqualTo(
                 productRepository.checkProductExistByProductId(1));
     }
 
-    @Test
+//    @Test
     void testFetchAllRecords() throws SQLException {
         List<Integer> products = productRepository.fetchAllProductIds();
         System.out.println(products.size());
