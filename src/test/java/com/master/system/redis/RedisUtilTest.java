@@ -1,4 +1,4 @@
-package com.master.system.bloom;
+package com.master.system.redis;
 
 import org.assertj.core.api.Assertions;
 import org.jeasy.random.EasyRandom;
@@ -12,30 +12,14 @@ import redis.clients.jedis.JedisPool;
 @ExtendWith(SpringExtension.class)
 class RedisUtilTest {
 
-    private JedisPool localRedisPool;
     private JedisPool centralRedisPool;
     private EasyRandom generator;
 
     @BeforeEach
     void setUp() {
-        localRedisPool = RedisUtil.getLocalJedisPool();
         centralRedisPool = RedisUtil.getCentralJedisPool();
         generator = new EasyRandom();
     }
-
-    @Test
-    void testLocalRedisConnection() {
-        Assertions.assertThat(localRedisPool).isNotNull();
-        Jedis client = localRedisPool.getResource();
-        Assertions.assertThat(client).isNotNull();
-
-        String key = generator.nextObject(String.class);
-        String value = generator.nextObject(String.class);
-
-        client.set(key, value);
-        Assertions.assertThat(value).isEqualTo(client.get(key));
-    }
-
 
     @Test
     void testCentralRedisConnection() {
