@@ -1,4 +1,4 @@
-# A Play Project for Mimic Real World System
+# A Play Project that Mimic Real World System
 
 | **SNo** | **Task ID** | **Description**                     | **Branch**                       | **PR Links**                                                           | **Some More Reads**              |
 |:-------:|:-----------:|-------------------------------------|----------------------------------|------------------------------------------------------------------------|----------------------------------|
