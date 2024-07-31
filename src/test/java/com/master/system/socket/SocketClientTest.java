@@ -50,4 +50,20 @@ class SocketClientTest {
         socket.close();
     }
 
+    @Test
+    void streamReader() throws IOException, InterruptedException {
+        Socket socket = new Socket(IP, PORT);
+        InputStream input = socket.getInputStream();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+
+        int count = 1;
+        while (count < 3) {
+            String response = reader.readLine();
+            System.out.println("Server response: " + response);
+            count++;
+        }
+        input.close();
+        socket.close();
+    }
+
 }
