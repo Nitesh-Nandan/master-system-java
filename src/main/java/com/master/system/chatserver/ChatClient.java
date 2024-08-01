@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 public class ChatClient {
     private static final Integer PORT = 7070;
@@ -15,7 +16,7 @@ public class ChatClient {
         CompletableFuture.runAsync(() -> {
             try {
                 ChatClient.reader(socket);
-            } catch (IOException e) {
+            } catch (IOException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
         });
@@ -23,7 +24,7 @@ public class ChatClient {
         CompletableFuture.runAsync(() -> {
             try {
                 ChatClient.write(socket);
-            } catch (IOException e) {
+            } catch (IOException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
         });
@@ -32,18 +33,21 @@ public class ChatClient {
         }
     }
 
-    private static void reader(Socket socket) throws IOException {
+    private static void reader(Socket socket) throws IOException, InterruptedException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        while (true) {
-            String response = reader.readLine();
+        String response = null;
+        while ((response = reader.readLine()) != null) {
             System.out.println("Server response: " + response);
+            TimeUnit.MILLISECONDS.sleep(500);
         }
+        System.out.println("Reader existed");
     }
 
-    private static void write(Socket socket) throws IOException {
+    private static void write(Socket socket) throws IOException, InterruptedException {
         Scanner sc = new Scanner(System.in);
         BufferedWriter wb = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
         while (true) {
+            TimeUnit.MILLISECONDS.sleep(500);
             System.out.print("Enter the Destination Port: ");
             int desPort = Integer.parseInt(sc.nextLine().trim());
             if (desPort == 0) {
